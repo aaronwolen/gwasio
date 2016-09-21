@@ -1,71 +1,36 @@
 .gwas_patterns <- list(
-  chromosome = c(
-    "chromosome"
-    ),
-  marker = c(
-    "marker",
-    "rsid",
-    "snp",
-    "markername"
-  ),
-  position = c(
-    "position",
-    "bp"
-  ),
-  a1 = c(
-    "a1",
-    "allele1",
-    "allelea"
-  ),
-  a2 = c(
-    "a2",
-    "allele2",
-    "alleleb"
-  ),
-  frequency = c(
-    "frequency",
-    "freq",
-    "frq"
-  ),
-  information = c(
-    "information",
-    "info"
-  ),
-  zscore = c(
-    "zscore",
-    "z"
-  ),
-  beta = c(
-    "beta",
-    "b"
-  ),
-  se = c(
-    "se"
-  ),
-  pvalue = c(
-    "pvalue",
-    "p.value",
-    "pval",
-    "p.val",
-    "p"
-  )
+  chromosome  = "^chr(om)?(osome)?$",
+  marker      = "^(mark(er)?(name)?|rs[\\.\\-_]?id|snp)$",
+  position    = "^(pos(ition)?|bp)$",
+  a1          = "^a(llele)?[1a]$",
+  a2          = "^a(llele)?[2b]$",
+  frequency   = "^fr(q|eq|equency)$",
+  information = "^info(rmation)?$",
+  zscore      = "^z[\\.\\-_]?(score)?$",
+  beta        = "^b(eta)?$",
+  se          = "^s(td|tandard)?[\\.\\-_]?e(rr|rror)?$",
+  pvalue      = "^p[\\.\\-_]?(val|value)?$"
 )
 
 # return name of slot containing a unique matching pattern
 detect_patterns <- function(strings, patterns = .gwas_patterns) {
 
-    out <- setNames(vector("list", length(strings)), strings)
+  hits <- purrr::map(
+    purrr::set_names(strings),
+    stringi::stri_count_regex,
+    pattern = patterns,
+    opts_regex = list(case_insensitive = TRUE)
+  )
+  hits <- purrr::discard(hits, function(x) all(x == 0))
 
-    for (s in strings) {
-      for (p in names(patterns)) {
-        pat <- patterns[[p]]
-        matches <-  na.omit(match(tolower(s), pat))
-
-        # only accept single matches
-        if (length(matches) == 1) {
-          out[[s]] <- c(out[[s]], p)
-        }
-      }
-    }
-    unlist(out)
+  # only accept single matches
+  n.hits <- purrr::map_int(hits, sum)
+  if (any(n.hits > 1)) {
+    ambiguous <- purrr::keep(n.hits, ~ . > 1)
+    purrr::walk2(names(ambiguous), ambiguous,
+                 ~ warning(.x, " matched ", .y, " variables.", call. = FALSE))
+    hits <- hits[setdiff(names(hits), names(ambiguous))]
   }
+
+  purrr::map_chr(hits, function(x) names(patterns)[which(x > 0)])
+}

@@ -1,13 +1,16 @@
 Package: gwasio
 Type: Package
 Title: GWAS standardization
-Version: 0.1.0
+Version: 0.1.1
 Author: Aaron Wolen <aaron@wolen.com>
 Maintainer: Aaron Wolen <aaron@wolen.com>
 Description: Standardize heterogeneous sets of GWAS results.
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports:
-    data.table
+    data.table,
+    purrr,
+    stringi
 RoxygenNote: 5.0.1
+Suggests: testthat

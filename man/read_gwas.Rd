@@ -4,25 +4,19 @@
 \alias{read_gwas}
 \title{Read a GWAS results file into a data frame.}
 \usage{
-read_gwas(file, verbose = TRUE)
+read_gwas(input, verbose = TRUE)
 }
 \arguments{
-\item{verbose}{ Be chatty and report timings? }
+\item{input}{Either the file name to read (containing no \\n character), a
+shell command that preprocesses the file (e.g. \code{fread("grep blah
+filename")}) or the input itself as a string (containing at least one
+\\n), see examples. In both cases, a length 1 character string. A filename
+input is passed through path.expand for convenience and may be a URL
+starting \code{http://} or \code{file://}.}
 
-\item{delim}{Symbolic name for single character used to separate fields}
+\item{verbose}{Provide description of processing steps}
 }
 \description{
 Read a GWAS results file into a data frame.
-}
-\section{Delimiters}{
-
-
-The \code{delim} argument accepts any of the following values:
-
-\enumerate{
- \item \code{"tab"}
- \item \code{"comma"}
- \item \code{"space"}
-}
 }
 
