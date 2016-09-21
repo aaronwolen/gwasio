@@ -1,5 +1,7 @@
 # `gwasio`
 
+[![Build Status](https://travis-ci.com/aaronwolen/gwasio.svg?token=xDWxPwq1qqHNdH2Sx9RN&branch=master)](https://travis-ci.com/aaronwolen/gwasio)
+
 Standardize heterogeneous sets of GWAS results.
 
 Features:
