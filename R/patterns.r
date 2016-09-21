@@ -19,7 +19,7 @@ detect_patterns <- function(strings, patterns = .gwas_patterns) {
     purrr::set_names(strings),
     stringi::stri_count_regex,
     pattern = patterns,
-    regex_opts = list(case_insensitive = TRUE)
+    opts_regex = list(case_insensitive = TRUE)
   )
   hits <- purrr::discard(hits, function(x) all(x == 0))
 
