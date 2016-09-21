@@ -1,15 +1,5 @@
 #' Read a GWAS results file into a data frame.
 #'
-#' @section Delimiters:
-#'
-#' The \code{delim} argument accepts any of the following values:
-#'
-#' \enumerate{
-#'  \item \code{"tab"}
-#'  \item \code{"comma"}
-#'  \item \code{"space"}
-#' }
-#'
 #' @inheritParams data.table::fread
 #' @param input Either the file name to read (containing no \\n character), a
 #'   shell command that preprocesses the file (e.g. \code{fread("grep blah
