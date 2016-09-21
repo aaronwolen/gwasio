@@ -26,3 +26,18 @@ test_that("variant 3 recognized", {
   expect_silent(table   <- read_gwas(file, verbose = FALSE))
   expect_equal(colnames(table), labels)
 })
+
+test_that("variant 4", {
+  file    <- "tables/columns-variant4.txt"
+  labels  <-
+    c("marker",
+      "a1",
+      "a2",
+      "frequency",
+      "information",
+      "beta",
+      "se",
+      "pvalue")
+  expect_silent(table   <- read_gwas(file, verbose = FALSE))
+  expect_equal(colnames(table), labels)
+})
