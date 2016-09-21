@@ -20,11 +20,9 @@ read_gwas <- function(input, verbose = TRUE) {
   col.names <- detect_patterns(names(data))
 
   if (verbose) {
-    dev.null <- Map(
-      function(x, y) message("Column ", x, " renamed to ", y),
-      x = names(col.names),
-      y = col.names
-    )
+    purrr::walk2(names(col.names),
+                 col.names,
+                 ~ message("Column ", .x, " renamed to ", .y))
   }
 
   data.table::setnames(data, names(col.names), col.names)
