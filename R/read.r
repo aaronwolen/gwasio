@@ -14,6 +14,8 @@
 #' @param delim Symbolic name for single character used to separate fields
 #'
 #' @importFrom data.table fread
+#' @importFrom purrr map map_int map_chr walk2 set_names discard keep
+#' @importFrom stringi stri_count_regex
 
 read_gwas <- function(file, verbose = TRUE) {
 

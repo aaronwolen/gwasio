@@ -9,6 +9,8 @@ License: MIT
 Encoding: UTF-8
 LazyData: true
 Imports:
-    data.table
+    data.table,
+    purrr,
+    stringi
 RoxygenNote: 5.0.1
 Suggests: testthat
