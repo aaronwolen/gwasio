@@ -11,6 +11,7 @@ LazyData: true
 Imports:
     data.table,
     purrr,
-    stringi
+    stringi,
+    readr
 RoxygenNote: 5.0.1
 Suggests: testthat

@@ -1,0 +1,26 @@
+#!/usr/bin/env Rscript
+
+local({
+  p = commandArgs(TRUE)
+  if (length(p) == 0L || any(c('-h', '--help') %in% p)) {
+    message('usage: gwasio input [-o output]
+    -h, --help        to print help messages
+    -o                output filename(s) for knit()')
+    q('no')
+  }
+
+  library(gwasio)
+  o = match('-o', p)
+  if (is.na(o)) {
+    output = paste0(tools::file_path_sans_ext(p[1]), ".csv")
+  } else {
+    output = tail(p, length(p) - o)
+    p = head(p, o - 1L)
+  }
+
+  if (length(p) == 0L) stop('No input file provided')
+  if (!file.exists(p[1])) stop(p[1], 'does not exist')
+
+  gwas <- gwasio::read_gwas(p[1])
+  gwasio::write_gwas_csv(gwas, path = output)
+})
