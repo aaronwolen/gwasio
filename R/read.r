@@ -7,6 +7,9 @@
 #'   \\n), see examples. In both cases, a length 1 character string. A filename
 #'   input is passed through path.expand for convenience and may be a URL
 #'   starting \code{http://} or \code{file://}.
+#' @param missing Vector of characters that represent missing value codes. By
+#'   default the following strings are interpreted as \code{NA}: \code{""},
+#'   \code{"."}, \code{"NA"}, \code{"N/A"}, and \code{"null"}.
 #' @param verbose Provide description of processing steps
 #'
 #' @importFrom data.table fread
@@ -14,10 +17,13 @@
 #' @importFrom stringi stri_count_regex
 #' @export
 
-read_gwas <- function(input, verbose = TRUE) {
+read_gwas <-
+  function(input,
+           missing = c("NA", "N/A", "null", "."),
+           verbose = TRUE) {
 
   input.names <- read_colnames(input)
-  data <- fread(input, col.names = input.names, skip = 1)
+  data <- fread(input, col.names = input.names, skip = 1, na.strings = missing)
 
   col.names <- detect_patterns(input.names)
 
