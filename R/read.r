@@ -16,9 +16,11 @@
 
 read_gwas <- function(input, verbose = TRUE) {
 
-  data <- fread(input)
+  input.names <- read_colnames(input)
+  data <- fread(input, col.names = input.names, skip = 1)
 
-  col.names <- detect_patterns(names(data))
+  col.names <- detect_patterns(input.names)
+
 
   if (verbose) {
     purrr::walk2(names(col.names),
