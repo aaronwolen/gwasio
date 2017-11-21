@@ -3,6 +3,7 @@
 export(read_gwas)
 export(write_gwas_csv)
 importFrom(data.table,fread)
+importFrom(purrr,"%>%")
 importFrom(purrr,discard)
 importFrom(purrr,flatten_chr)
 importFrom(purrr,keep)
