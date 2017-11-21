@@ -4,7 +4,7 @@
 \alias{read_gwas}
 \title{Read a GWAS results file into a data frame.}
 \usage{
-read_gwas(input, verbose = TRUE)
+read_gwas(input, missing = c("NA", "N/A", "null", "."), verbose = TRUE)
 }
 \arguments{
 \item{input}{Either the file name to read (containing no \\n character), a
@@ -14,9 +14,12 @@ filename")}) or the input itself as a string (containing at least one
 input is passed through path.expand for convenience and may be a URL
 starting \code{http://} or \code{file://}.}
 
+\item{missing}{Vector of characters that represent missing value codes. By
+default the following strings are interpreted as \code{NA}: \code{""},
+\code{"."}, \code{"NA"}, \code{"N/A"}, and \code{"null"}.}
+
 \item{verbose}{Provide description of processing steps}
 }
 \description{
 Read a GWAS results file into a data frame.
 }
-
