@@ -2,6 +2,7 @@
 
 export(read_gwas)
 export(write_gwas_csv)
+importFrom(R.utils,gunzip)
 importFrom(data.table,fread)
 importFrom(purrr,"%>%")
 importFrom(purrr,discard)

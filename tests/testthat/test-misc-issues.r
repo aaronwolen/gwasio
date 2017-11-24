@@ -8,4 +8,5 @@ test_that("header and data can use different delimiters", {
 test_that("handles compressed files", {
   ref <- read_gwas("tables/columns-variant1-canonical.txt")
   expect_equal(read_gwas("tables/columns-variant1-canonical.txt.zip"), ref)
+  expect_equal(read_gwas("tables/columns-variant1-canonical.txt.gz"), ref)
 })

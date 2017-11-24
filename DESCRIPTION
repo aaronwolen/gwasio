@@ -12,6 +12,6 @@ Imports:
     data.table,
     purrr,
     stringi,
-    readr
+    R.utils
 RoxygenNote: 6.0.1
 Suggests: testthat

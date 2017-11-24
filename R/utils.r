@@ -13,7 +13,7 @@ is_compressed <- function(x) {
 }
 
 # see: https://github.com/hadley/devtools/commit/1b1732c
-decompress <- function(x, unzip = getOption("unzip")) {
+decompress_zip <- function(x, unzip = getOption("unzip")) {
   files <- utils::unzip(x, list = TRUE)
   file <- files$Name[[1]]
 
@@ -24,4 +24,9 @@ decompress <- function(x, unzip = getOption("unzip")) {
   exdir <- tempdir()
   system2(unzip, c("-oq", x, file, paste("-d", exdir)))
   file.path(exdir, file)
+}
+
+#' @importFrom R.utils gunzip
+decompress_gz <- function(x) {
+  R.utils::gunzip(x, temporary = TRUE, remove = FALSE, overwrite = TRUE)
 }

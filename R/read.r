@@ -23,7 +23,10 @@ read_gwas <-
            verbose = TRUE) {
 
   if (is_compressed(input)) {
-    input <- decompress(input)
+    input <- switch(tools::file_ext(input),
+      zip = decompress_zip(input),
+      gz = decompress_gz(input)
+    )
   }
 
   input.names <- read_colnames(input)
