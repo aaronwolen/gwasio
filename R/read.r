@@ -14,6 +14,7 @@
 #'
 #' @importFrom data.table fread
 #' @importFrom purrr map map_int map_chr walk2 set_names discard keep
+#' @importFrom rlang is_named
 #' @importFrom stringi stri_count_regex
 #' @export
 
@@ -21,6 +22,24 @@ read_gwas <-
   function(input,
            missing = c("NA", "N/A", "null", "."),
            verbose = TRUE) {
+
+  if (!rlang::is_named(input)) {
+    names <- Map(file_path_sans_ext,
+                 x = basename(input),
+                 compression = is_compressed(input))
+    names(input) <- make.unique(unlist(names, use.names = FALSE))
+  }
+
+  out <- lapply(input, read_gwas_file, missing = missing, verbose = verbose)
+
+  if (length(out) > 1) {
+    data.table::rbindlist(out, idcol = ".gwas", fill = TRUE)
+  } else {
+    out[[1]]
+  }
+}
+
+read_gwas_file <- function(input, missing, verbose) {
 
   if (is_compressed(input)) {
     input <- switch(tools::file_ext(input),
@@ -30,7 +49,8 @@ read_gwas <-
   }
 
   input.names <- read_colnames(input)
-  data <- fread(input, col.names = input.names, skip = 1, na.strings = missing)
+  data <- fread(input, col.names = input.names, skip = 1, na.strings = missing,
+                verbose = FALSE)
 
   col.names <- detect_patterns(input.names)
 

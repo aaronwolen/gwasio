@@ -1,6 +1,7 @@
 # Capture header row of input data table
 #' @importFrom stringi stri_trim_both stri_split
-#' @importFrom purrr flatten_chr "%>%"
+#' @importFrom rlang flatten_chr
+#' @importFrom purrr "%>%"
 read_colnames <- function(input) {
   readLines(input, n = 1) %>%
     stringi::stri_trim_both() %>%
@@ -10,6 +11,12 @@ read_colnames <- function(input) {
 
 is_compressed <- function(x) {
   grepl("(gz|zip)$", x)
+}
+
+# modified version of tools function that's aware of  zip extension
+file_path_sans_ext <- function(x, compression = FALSE) {
+  if (compression)  x <- sub("[.](gz|bz2|xz|zip)$", "", x)
+  sub("([^.]+)\\.[[:alnum:]]+$", "\\1", x)
 }
 
 # see: https://github.com/hadley/devtools/commit/1b1732c
