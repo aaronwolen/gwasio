@@ -8,3 +8,20 @@ read_colnames <- function(input) {
     purrr::flatten_chr()
 }
 
+is_compressed <- function(x) {
+  grepl("(gz|zip)$", x)
+}
+
+# see: https://github.com/hadley/devtools/commit/1b1732c
+decompress <- function(x, unzip = getOption("unzip")) {
+  files <- utils::unzip(x, list = TRUE)
+  file <- files$Name[[1]]
+
+  if (unzip == "internal") {
+    return(utils::unzip(x, file, exdir = tempdir()))
+  }
+
+  exdir <- tempdir()
+  system2(unzip, c("-oq", x, file, paste("-d", exdir)))
+  file.path(exdir, file)
+}

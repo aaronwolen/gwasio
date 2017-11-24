@@ -22,6 +22,10 @@ read_gwas <-
            missing = c("NA", "N/A", "null", "."),
            verbose = TRUE) {
 
+  if (is_compressed(input)) {
+    input <- decompress(input)
+  }
+
   input.names <- read_colnames(input)
   data <- fread(input, col.names = input.names, skip = 1, na.strings = missing)
 
