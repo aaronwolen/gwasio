@@ -22,5 +22,5 @@ local({
   if (!file.exists(p[1])) stop(p[1], 'does not exist')
 
   gwas <- gwasio::read_gwas(p[1])
-  gwasio::write_gwas_csv(gwas, path = output)
+  data.table::fwrite(gwas, path = output, na = "NA", quote = FALSE)
 })
