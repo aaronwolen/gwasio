@@ -7,12 +7,9 @@
 read_gwas(input, missing = c("NA", "N/A", "null", "."), verbose = TRUE)
 }
 \arguments{
-\item{input}{Either the file name to read (containing no \\n character), a
-shell command that preprocesses the file (e.g. \code{fread("grep blah
-filename")}) or the input itself as a string (containing at least one
-\\n), see examples. In both cases, a length 1 character string. A filename
-input is passed through path.expand for convenience and may be a URL
-starting \code{http://} or \code{file://}.}
+\item{input}{Path to a file containing GWAS summary statistics. If multiple
+paths are specified all files will be read in and combined into a single
+\code{data.frame}.}
 
 \item{missing}{Vector of characters that represent missing value codes. By
 default the following strings are interpreted as \code{NA}: \code{""},
