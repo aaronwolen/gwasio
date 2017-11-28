@@ -31,7 +31,7 @@ test_that("a2", {
 })
 
 test_that("frequency", {
-  x <- c("frequency", "freq", "frq")
+  x <- c("frequency", "freq", "frq", "af", "CEUaf")
   hits <- stri_count_regex(x, .gwas_patterns$frequency)
   expect_true(all(hits))
 })

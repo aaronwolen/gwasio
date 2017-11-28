@@ -4,7 +4,7 @@
   position    = "^(pos(ition)?|bp)$",
   a1          = "^a(llele)?[1a]$",
   a2          = "^a(llele)?[2b]$",
-  frequency   = "^fr(q|eq|equency)$",
+  frequency   = "^fr(e)?q(uency)?|af$",
   information = "^info(rmation)?$",
   zscore      = "^z[\\.\\-_]?(score)?$",
   beta        = "^b(eta)?$",
