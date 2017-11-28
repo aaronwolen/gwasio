@@ -7,7 +7,7 @@ test_that("chromosome", {
 })
 
 test_that("marker", {
-  x <- c("marker", "markername", "snp", "rsid", "rs_id")
+  x <- c("marker", "markername", "snp", "snpid", "rsid", "rs_id")
   hits <- stri_count_regex(x, .gwas_patterns$marker)
   expect_true(all(hits))
 })
