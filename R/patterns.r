@@ -1,5 +1,5 @@
 .gwas_patterns <- list(
-  chromosome  = "^chr(om)?(osome)?$",
+  chromosome  = "^(hg\\d{2})?chr(om)?(osome)?$",
   marker      = "^(mark(er)?(name)?|rs[\\.\\-_]?id|snp(id)?)$",
   position    = "^(pos(ition)?|bp)$",
   a1          = "^a(llele)?[1a]$",

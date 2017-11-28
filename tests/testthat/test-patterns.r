@@ -1,7 +1,7 @@
 context("Test variable patterns")
 
 test_that("chromosome", {
-  x <- c("chromosome", "chrom", "chr")
+  x <- c("chromosome", "chrom", "chr", "hg18chr", "hg19chr")
   hits <- stri_count_regex(x, .gwas_patterns$chromosome)
   expect_true(all(hits))
 })
