@@ -31,10 +31,11 @@ read_gwas <-
   out <- lapply(input, read_gwas_file, missing = missing, verbose = verbose)
 
   if (length(out) > 1) {
-    data.table::rbindlist(out, idcol = ".gwas", fill = TRUE)
+    out <- data.table::rbindlist(out, idcol = ".gwas", fill = TRUE)
   } else {
-    out[[1]]
+    out <- out[[1]]
   }
+  tibble::as_tibble(out)
 }
 
 read_gwas_file <- function(input, missing, verbose) {
@@ -60,5 +61,5 @@ read_gwas_file <- function(input, missing, verbose) {
   }
 
   data.table::setnames(data, names(col.names), col.names)
-  tibble::as_tibble(data)
+  data
 }
