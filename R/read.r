@@ -10,6 +10,7 @@
 #' @param verbose Provide description of processing steps
 #'
 #' @importFrom data.table fread
+#' @importFrom tibble tibble as_tibble
 #' @importFrom purrr map map_int map_chr walk2 set_names discard keep
 #' @importFrom rlang is_named
 #' @importFrom stringi stri_count_regex
@@ -59,5 +60,5 @@ read_gwas_file <- function(input, missing, verbose) {
   }
 
   data.table::setnames(data, names(col.names), col.names)
-  data
+  tibble::as_tibble(data)
 }
