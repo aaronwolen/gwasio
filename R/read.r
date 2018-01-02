@@ -60,7 +60,7 @@ read_gwas <-
   if (!is.null(out$chromosome) & !is.null(chromosome_style)) {
     chromosome_style <- match.arg(chromosome_style,
                                   setdiff(colnames(chrom_table), "key"))
-    out$chromosome <- set_chromosomes(out$chromosome, chromosome_style)
+    out[, "chromosome" := set_chromosomes(get("chromosome"), chromosome_style)]
   }
 
   tibble::as_tibble(out)
