@@ -11,6 +11,7 @@ set_chromosomes <- function(x, chromosome_style) {
 
   # strip chromosome prefixes
   chrom_key$key <- as.character(chrom_key$chromosome)
+  chrom_key$key <- sub("23", "X", chrom_key$key, fixed = TRUE)
   chrom_key$key <- sub("^(ch|chr)", "", chrom_key$key, ignore.case = TRUE)
   chrom_key$key <- sub("M$", "MT", chrom_key$key, ignore.case = TRUE)
 
