@@ -13,6 +13,14 @@ chrom_table <- fread(chrom_file)
 chrom_table[, c("circular", "auto", "sex") := NULL]
 setnames(chrom_table, names(chrom_table), tolower(names(chrom_table)))
 
+# convert to factors
+cols <- names(chrom_table)
+chrom_table[,
+  (cols) := lapply(.SD, function(x) factor(x, unique(x))),
+  .SDcols = cols
+]
+
+# use ncbi style as 'foreign key' for cross-style mapping
 chrom_table[, key := ncbi]
 setkeyv(chrom_table, cols = "key")
 
