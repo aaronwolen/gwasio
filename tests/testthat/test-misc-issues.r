@@ -13,10 +13,10 @@ test_that("handles compressed files", {
 
 test_that("handles multiple files", {
   files <- dir("tables", pattern = "variant[234]", full.names = TRUE)
-  expect_true(is.data.frame(read_gwas(files)))
+  expect_true(is.data.frame(read_gwas(files, chromosome_style = NULL)))
 
   # respects custom names
   names(files) <- c("gwas1", "gwas2", "gwas3")
-  gwas <- read_gwas(files)
+  gwas <- read_gwas(files, chromosome_style = NULL)
   expect_equal(unique(gwas$.gwas), names(files))
 })

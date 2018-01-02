@@ -44,3 +44,7 @@ expect_equal(
     chrom_table$ensembl
   )
 })
+
+test_that("conversion is skipped with non-standard chromosomes", {
+  expect_warning(set_chromosomes(c(chrom_table$ncbi, "unknown"), "ucsc"))
+})

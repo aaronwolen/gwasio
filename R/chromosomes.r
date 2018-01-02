@@ -18,6 +18,15 @@ set_chromosomes <- function(x, chromosome_style) {
   # map input to specified style
   chrom_table <- chrom_table[, c("key", style) , with = FALSE]
   chrom_key <- chrom_table[chrom_key, on = "key"][, ("key") := NULL]
+
+  # be conservative: abort if conversion would introduce missing values
+  if (any(is.na(chrom_key[[style]]))) {
+    warning(
+      "Non-standard chromosomes detected - skipping chromosome conversion.",
+      call. = FALSE
+    )
+    return(x)
+  }
   chrom_input[chrom_key, on = "chromosome"][[style]]
 }
 
