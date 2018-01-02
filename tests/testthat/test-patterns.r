@@ -65,3 +65,8 @@ test_that("pvalue", {
   hits <- stri_count_regex(x, .gwas_patterns$pvalue)
   expect_true(all(hits))
 })
+
+test_that("each pattern can be matched only once", {
+  x <- c("snp", "rs_id")
+  expect_equivalent(detect_patterns(x), "marker")
+})

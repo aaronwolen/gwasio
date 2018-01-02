@@ -23,7 +23,7 @@ detect_patterns <- function(strings, patterns = .gwas_patterns) {
   )
   hits <- purrr::discard(hits, function(x) all(x == 0))
 
-  # only accept single matches
+  # only rename variables that match a single pattern
   n.hits <- purrr::map_int(hits, sum)
   if (any(n.hits > 1)) {
     ambiguous <- purrr::keep(n.hits, ~ . > 1)
@@ -32,5 +32,7 @@ detect_patterns <- function(strings, patterns = .gwas_patterns) {
     hits <- hits[setdiff(names(hits), names(ambiguous))]
   }
 
-  purrr::map_chr(hits, function(x) names(patterns)[which(x > 0)])
+  out <- purrr::map_chr(hits, function(x) names(patterns)[which(x > 0)])
+  # ensure each pattern is matched only once
+  out[!duplicated(out)]
 }
