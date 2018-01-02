@@ -4,7 +4,8 @@
 \alias{read_gwas}
 \title{Read a GWAS results file into a data frame.}
 \usage{
-read_gwas(input, missing = c("NA", "N/A", "null", "."), verbose = TRUE)
+read_gwas(input, missing = c("NA", "N/A", "null", "."),
+  chromosome_style = "ucsc", verbose = TRUE)
 }
 \arguments{
 \item{input}{Path to a file containing GWAS summary statistics. If multiple
@@ -15,8 +16,31 @@ paths are specified all files will be read in and combined into a single
 default the following strings are interpreted as \code{NA}: \code{""},
 \code{"."}, \code{"NA"}, \code{"N/A"}, and \code{"null"}.}
 
+\item{chromosome_style}{Convert chromosomes to ordered factors with labels based on the specified style (default is \code{"ucsc"}; see below for a comparison of the different styles). Set to \code{NULL} to leave chromosomes unchanged.}
+
 \item{verbose}{Provide description of processing steps}
 }
 \description{
 Read a GWAS results file into a data frame.
 }
+\section{Chromosome Styles}{
+
+
+We use the \emph{Homo sapien} chromosome styles defined in Bioconductor's
+\href{https://bioconductor.org/packages/GenomeInfoDb}{\code{GenomeInfoDb}}.
+Valid options include \code{"ncbi"}, \code{"ensembl"}, \code{"ucsc"} and
+\code{"dbsnp"}. The following table provides a preview of each style (note
+\code{ncbi} and \code{ensembl} are identical):
+
+\tabular{rrr}{
+  ncbi/ensembl  \tab ucsc  \tab dbsnp\cr
+  1             \tab chr1  \tab ch1 \cr
+  2             \tab chr2  \tab ch2\cr
+  3             \tab chr3  \tab chr3\cr
+  \dots         \tab \dots \tab \dots\cr
+  X             \tab chrX  \tab chX\cr
+  Y             \tab chrY  \tab chY\cr
+  MT            \tab chrM  \tab chMT
+}
+}
+
