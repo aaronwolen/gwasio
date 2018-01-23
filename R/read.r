@@ -8,6 +8,8 @@
 #'   default the following strings are interpreted as \code{NA}: \code{""},
 #'   \code{"."}, \code{"NA"}, \code{"N/A"}, and \code{"null"}.
 #' @param chromosome_style Convert chromosomes to ordered factors with labels based on the specified style (default is \code{"ucsc"}; see below for a comparison of the different styles). Set to \code{NULL} to leave chromosomes unchanged.
+#' @param preprocess a shell command that preprocesses the file; see below for
+#'   more details
 #' @param verbose Provide description of processing steps
 #'
 #' @section Chromosome Styles:
@@ -29,6 +31,26 @@
 #'   MT            \tab chrM  \tab chMT
 #' }
 #'
+#' @section Preprocessing:
+#'
+#' The \code{preprocessor} argument allows you to specify shell commands that
+#' preprocess the file before it's read into \R. For example, we could use
+#' \code{grep} to filter our results to include only markers with an RS number:
+#'
+#' \preformatted{ read_gwas("my-results.txt", preprocess = "grep -e '^rs'") }
+#'
+#' Note that \code{read_gwas()} handles the header row separately so column
+#' labels wouldn't be filtered out by \code{grep} in this example.
+#'
+#' By default, the input filename is appended to \code{preprocess} argument
+#' prior to execution. However, you can control where the filename should be
+#' inserted in the command by using \code{\%s} as a placeholder. In the following
+#' example, \code{tr} is being used to remove null terminators:
+#'
+#' \preformatted{
+#'   read_gwas("my-results.txt", preprocess = "tr -d '\\000' < \%s")
+#' }
+#'
 #' @importFrom data.table fread
 #' @importFrom tibble tibble as_tibble
 #' @importFrom purrr map map_int map_chr walk2 set_names discard keep
@@ -40,6 +62,7 @@ read_gwas <-
   function(input,
            missing = c("NA", "N/A", "null", "."),
            chromosome_style = "ucsc",
+           preprocess = NULL,
            verbose = TRUE) {
 
   if (!rlang::is_named(input)) {
@@ -49,7 +72,8 @@ read_gwas <-
     names(input) <- make.unique(unlist(names, use.names = FALSE))
   }
 
-  out <- lapply(input, read_gwas_file, missing = missing, verbose = verbose)
+  out <- lapply(input, read_gwas_file,
+                missing = missing, preprocess = preprocess, verbose = verbose)
 
   if (length(out) > 1) {
     out <- data.table::rbindlist(out, idcol = ".gwas", fill = TRUE)
@@ -66,7 +90,7 @@ read_gwas <-
   tibble::as_tibble(out)
 }
 
-read_gwas_file <- function(input, missing, verbose) {
+read_gwas_file <- function(input, missing, preprocess, verbose) {
 
   if (is_compressed(input)) {
     input <- switch(tools::file_ext(input),
@@ -74,8 +98,16 @@ read_gwas_file <- function(input, missing, verbose) {
       gz = decompress_gz(input)
     )
   }
-
   input.names <- read_colnames(input)
+
+  if (!is.null(preprocess)) {
+    if (grepl("%s", preprocess)) {
+      input <- sprintf(preprocess, input)
+    } else {
+      input <- paste(preprocess, input)
+    }
+  }
+
   data <- fread(input, col.names = input.names, skip = 1, na.strings = missing,
                 verbose = FALSE)
 

@@ -5,7 +5,7 @@
 \title{Read a GWAS results file into a data frame.}
 \usage{
 read_gwas(input, missing = c("NA", "N/A", "null", "."),
-  chromosome_style = "ucsc", verbose = TRUE)
+  chromosome_style = "ucsc", preprocess = NULL, verbose = TRUE)
 }
 \arguments{
 \item{input}{Path to a file containing GWAS summary statistics. If multiple
@@ -17,6 +17,9 @@ default the following strings are interpreted as \code{NA}: \code{""},
 \code{"."}, \code{"NA"}, \code{"N/A"}, and \code{"null"}.}
 
 \item{chromosome_style}{Convert chromosomes to ordered factors with labels based on the specified style (default is \code{"ucsc"}; see below for a comparison of the different styles). Set to \code{NULL} to leave chromosomes unchanged.}
+
+\item{preprocess}{a shell command that preprocesses the file; see below for
+more details}
 
 \item{verbose}{Provide description of processing steps}
 }
@@ -41,6 +44,28 @@ Valid options include \code{"ncbi"}, \code{"ensembl"}, \code{"ucsc"} and
   X             \tab chrX  \tab chX\cr
   Y             \tab chrY  \tab chY\cr
   MT            \tab chrM  \tab chMT
+}
+}
+
+\section{Preprocessing}{
+
+
+The \code{preprocessor} argument allows you to specify shell commands that
+preprocess the file before it's read into \R. For example, we could use
+\code{grep} to filter our results to include only markers with an RS number:
+
+\preformatted{ read_gwas("my-results.txt", preprocess = "grep -e '^rs'") }
+
+Note that \code{read_gwas()} handles the header row separately so column
+labels wouldn't be filtered out by \code{grep} in this example.
+
+By default, the input filename is appended to \code{preprocess} argument
+prior to execution. However, you can control where the filename should be
+inserted in the command by using \code{\%s} as a placeholder. In the following
+example, \code{tr} is being used to remove null terminators:
+
+\preformatted{
+  read_gwas("my-results.txt", preprocess = "tr -d '\\000' < \%s")
 }
 }
 
