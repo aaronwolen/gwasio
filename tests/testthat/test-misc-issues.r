@@ -20,3 +20,15 @@ test_that("handles multiple files", {
   gwas <- read_gwas(files, chromosome_style = NULL)
   expect_equal(unique(gwas$.gwas), names(files))
 })
+
+test_that("handles column names from pretty printed files", {
+  gwas <- read_gwas("tables/plink-dosage.txt")
+  expect_equal(dim(gwas), c(6, 8))
+})
+
+test_that("preprocessor can handle ascii null characters", {
+  file <- "tables/plink-dosage-with-ascii-null.txt"
+  expect_error(read_gwas(file), regexp = "embedded nul in string")
+  gwas <- read_gwas(file, preprocess = "tr -d '\\000' < %s")
+  expect_equal(dim(gwas), c(6, 8))
+})

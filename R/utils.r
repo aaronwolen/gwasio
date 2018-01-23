@@ -5,7 +5,7 @@
 read_colnames <- function(input) {
   readLines(input, n = 1) %>%
     stringi::stri_trim_both() %>%
-    stringi::stri_split(regex = "[,\t |;:]") %>%
+    stringi::stri_split(regex = "[,\t |;:]+") %>%
     purrr::flatten_chr()
 }
 
