@@ -14,7 +14,7 @@
 #'
 #' @section Chromosome Styles:
 #'
-#' We use the \emph{Homo sapien} chromosome styles defined in Bioconductor's
+#' We use the \emph{Homo sapiens} chromosome styles defined in Bioconductor's
 #' \href{https://bioconductor.org/packages/GenomeInfoDb}{\code{GenomeInfoDb}}.
 #' Valid options include \code{"ncbi"}, \code{"ensembl"}, \code{"ucsc"} and
 #' \code{"dbsnp"}. The following table provides a preview of each style (note
@@ -24,7 +24,7 @@
 #'   ncbi/ensembl  \tab ucsc  \tab dbsnp\cr
 #'   1             \tab chr1  \tab ch1 \cr
 #'   2             \tab chr2  \tab ch2\cr
-#'   3             \tab chr3  \tab chr3\cr
+#'   3             \tab chr3  \tab ch3\cr
 #'   \dots         \tab \dots \tab \dots\cr
 #'   X             \tab chrX  \tab chX\cr
 #'   Y             \tab chrY  \tab chY\cr
