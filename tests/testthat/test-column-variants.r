@@ -5,6 +5,7 @@ test_that("canonical labels recognized", {
   labels  <- names(.gwas_patterns)
   expect_silent(table   <- read_gwas(file, verbose = FALSE))
   expect_equal(colnames(table), labels)
+  expect_equal(dim(table), c(5, 11))
 })
 
 test_that("abbreviated labels recognized", {
@@ -12,6 +13,7 @@ test_that("abbreviated labels recognized", {
   labels  <- names(.gwas_patterns)
   expect_silent(table   <- read_gwas(file, verbose = FALSE))
   expect_equal(colnames(table), labels)
+  expect_equal(dim(table), c(5, 11))
 })
 
 test_that("variant 3 recognized", {
@@ -25,6 +27,7 @@ test_that("variant 3 recognized", {
       "pvalue")
   expect_silent(table   <- read_gwas(file, verbose = FALSE))
   expect_equal(colnames(table), labels)
+  expect_equal(dim(table), c(5, 6))
 })
 
 test_that("variant 4", {
@@ -40,4 +43,5 @@ test_that("variant 4", {
       "pvalue")
   expect_silent(table   <- read_gwas(file, verbose = FALSE))
   expect_equal(colnames(table), labels)
+  expect_equal(dim(table), c(9, 8))
 })
