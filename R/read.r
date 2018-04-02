@@ -53,16 +53,20 @@
 #'
 #' @importFrom data.table fread
 #' @importFrom tibble tibble as_tibble
-#' @importFrom purrr map map_int map_chr map2_chr walk2 set_names discard keep
+#' @importFrom purrr map map_int map_chr map_lgl map2_chr walk2 set_names discard keep
 #' @importFrom rlang is_named
 #' @importFrom stringi stri_count_regex
 #' @export
 
 read_gwas <-
   function(input,
+           sep = "auto",
            missing = c("NA", "N/A", "null", "."),
            chromosome_style = "ucsc",
            preprocess = NULL,
+           nrows = -1L,
+           header = TRUE,
+           col.names = NULL,
            verbose = TRUE) {
 
   chromosome_style <- check_style(chromosome_style)
@@ -74,7 +78,13 @@ read_gwas <-
   }
 
   out <- lapply(input, read_gwas_file,
-                missing = missing, preprocess = preprocess, verbose = verbose)
+                missing = missing,
+                preprocess = preprocess,
+                sep = sep,
+                nrows = nrows,
+                header = header,
+                col.names = col.names,
+                verbose = verbose)
 
   if (length(out) > 1) {
     out <- data.table::rbindlist(out, idcol = ".gwas", fill = TRUE)
@@ -89,7 +99,7 @@ read_gwas <-
   tibble::as_tibble(out)
 }
 
-read_gwas_file <- function(input, missing, preprocess, verbose) {
+read_gwas_file <- function(input, missing, preprocess, sep, nrows, header, col.names, verbose) {
 
   if (is_compressed(input)) {
     input <- switch(tools::file_ext(input),
@@ -97,7 +107,25 @@ read_gwas_file <- function(input, missing, preprocess, verbose) {
       gz = decompress_gz(input)
     )
   }
+
   input.names <- read_colnames(input)
+  name.types <- map(input.names, type.convert)
+
+  if (header & is.null(col.names) & any(map_lgl(name.types, is.numeric))) {
+    warning("Detected numbers in first row, setting header=FALSE.", call. = FALSE)
+    header <- FALSE
+  }
+
+  if (header) {
+    skip <- 1L
+  } else {
+    skip <- 0L
+    if (is.null(col.names)) {
+      input.names <- paste0("V", seq_along(input.names))
+    } else {
+      input.names <- col.names
+    }
+  }
 
   if (!is.null(preprocess)) {
     if (grepl("%s", preprocess)) {
@@ -107,8 +135,16 @@ read_gwas_file <- function(input, missing, preprocess, verbose) {
     }
   }
 
-  data <- fread(input, col.names = input.names, skip = 1, na.strings = missing,
-                verbose = FALSE)
+  data <- fread(
+    input = input,
+    sep = sep,
+    col.names = input.names,
+    skip = skip,
+    nrows = nrows,
+    header = FALSE,
+    na.strings = missing,
+    verbose = FALSE
+  )
 
   col.names <- detect_patterns(input.names)
 

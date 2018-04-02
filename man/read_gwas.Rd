@@ -4,13 +4,16 @@
 \alias{read_gwas}
 \title{Read a GWAS results file into a data frame.}
 \usage{
-read_gwas(input, missing = c("NA", "N/A", "null", "."),
-  chromosome_style = "ucsc", preprocess = NULL, verbose = TRUE)
+read_gwas(input, sep = "auto", missing = c("NA", "N/A", "null", "."),
+  chromosome_style = "ucsc", preprocess = NULL, nrows = -1L,
+  header = TRUE, col.names = NULL, verbose = TRUE)
 }
 \arguments{
 \item{input}{Path to a file containing GWAS summary statistics. If multiple
 paths are specified all files will be read in and combined into a single
 \code{data.frame}.}
+
+\item{sep}{ The separator between columns. Defaults to the first character in the set [\code{,\t |;:}] that exists on line \code{autostart} outside quoted (\code{""}) regions, and separates the rows above \code{autostart} into a consistent number of fields, too. }
 
 \item{missing}{Vector of characters that represent missing value codes. By
 default the following strings are interpreted as \code{NA}: \code{""},
@@ -20,6 +23,12 @@ default the following strings are interpreted as \code{NA}: \code{""},
 
 \item{preprocess}{a shell command that preprocesses the file; see below for
 more details}
+
+\item{nrows}{ The number of rows to read, by default -1 means all. Unlike \code{read.table}, it doesn't help speed to set this to the number of rows in the file (or an estimate), since the number of rows is automatically determined and is already fast. Only set \code{nrows} if you require the first 10 rows, for example. `nrows=0` is a special case that just returns the column names and types; e.g., a dry run for a large file or to quickly check format consistency of a set of files before starting to read any. }
+
+\item{header}{ Does the first data line contain column names? Defaults according to whether every non-empty field on the first data line is type character. If so, or TRUE is supplied, any empty column names are given a default name. }
+
+\item{col.names}{ A vector of optional names for the variables (columns). The default is to use the header column if present or detected, or if not "V" followed by the column number. }
 
 \item{verbose}{Provide description of processing steps}
 }
