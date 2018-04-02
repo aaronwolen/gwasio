@@ -48,3 +48,9 @@ expect_equal(
 test_that("conversion is skipped with non-standard chromosomes", {
   expect_warning(set_chromosomes(c(chrom_table$ncbi, "unknown"), "ucsc"))
 })
+
+test_that("chromosome order is maintained", {
+  x <- c(2, 1, 2)
+  y <- set_chromosomes(c(2, 1, 2), "ncbi")
+  expect_equal(x, as.numeric(y))
+})

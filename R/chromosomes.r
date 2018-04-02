@@ -27,7 +27,7 @@ set_chromosomes <- function(x, chromosome_style) {
     )
     return(x)
   }
-  chrom_input[chrom_key, on = "chromosome"][[style]]
+  chrom_key[chrom_input, on = "chromosome"][[style]]
 }
 
 
