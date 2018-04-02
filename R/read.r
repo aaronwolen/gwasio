@@ -65,6 +65,8 @@ read_gwas <-
            preprocess = NULL,
            verbose = TRUE) {
 
+  chromosome_style <- check_style(chromosome_style)
+
   if (!rlang::is_named(input)) {
     names <- Map(file_path_sans_ext,
                  x = basename(input),
@@ -82,8 +84,6 @@ read_gwas <-
   }
 
   if (!is.null(out$chromosome) & !is.null(chromosome_style)) {
-    chromosome_style <- match.arg(chromosome_style,
-                                  setdiff(colnames(chrom_table), "key"))
     out[, "chromosome" := set_chromosomes(get("chromosome"), chromosome_style)]
   }
 

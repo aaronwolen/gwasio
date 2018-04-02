@@ -4,7 +4,7 @@
 #'
 #' @importFrom data.table data.table :=
 set_chromosomes <- function(x, chromosome_style) {
-  style  <- match.arg(chromosome_style, c("ncbi", "ensembl", "ucsc", "dbsnp"))
+  style <- check_style(chromosome_style)
 
   chrom_input <- data.table::data.table(chromosome = x)
   chrom_key <- unique(chrom_input)
@@ -28,6 +28,11 @@ set_chromosomes <- function(x, chromosome_style) {
     return(x)
   }
   chrom_key[chrom_input, on = "chromosome"][[style]]
+}
+
+check_style <- function(x) {
+  if (is.null(x)) return(NULL)
+  match.arg(x, setdiff(colnames(chrom_table), "key"))
 }
 
 
