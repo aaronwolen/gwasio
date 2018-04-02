@@ -53,7 +53,7 @@
 #'
 #' @importFrom data.table fread
 #' @importFrom tibble tibble as_tibble
-#' @importFrom purrr map map_int map_chr walk2 set_names discard keep
+#' @importFrom purrr map map_int map_chr map2_chr walk2 set_names discard keep
 #' @importFrom rlang is_named
 #' @importFrom stringi stri_count_regex
 #' @export
@@ -67,11 +67,10 @@ read_gwas <-
 
   chromosome_style <- check_style(chromosome_style)
 
+  # name each input file
   if (!rlang::is_named(input)) {
-    names <- Map(file_path_sans_ext,
-                 x = basename(input),
-                 compression = is_compressed(input))
-    names(input) <- make.unique(unlist(names, use.names = FALSE))
+    nms <- map2_chr(basename(input), is_compressed(input), file_path_sans_ext)
+    names(input) <- make.unique(nms)
   }
 
   out <- lapply(input, read_gwas_file,
