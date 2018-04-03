@@ -7,7 +7,15 @@
 #' @param missing Vector of characters that represent missing value codes. By
 #'   default the following strings are interpreted as \code{NA}: \code{""},
 #'   \code{"."}, \code{"NA"}, \code{"N/A"}, and \code{"null"}.
-#' @param chromosome_style Convert chromosomes to ordered factors with labels based on the specified style (default is \code{"ucsc"}; see below for a comparison of the different styles). Set to \code{NULL} to leave chromosomes unchanged.
+#' @param chromosome_style Convert chromosomes to ordered factors with labels
+#'   based on the specified style (default is \code{"ucsc"}; see below for a
+#'   comparison of the different styles). Set to \code{NULL} to leave
+#'   chromosomes unchanged.
+#  manually document sep because inheritParams doesn't escape the tab character
+#' @param sep The separator between columns. Defaults to the first character in
+#'   the set [\code{,\\t |;:}] that exists on line \code{autostart} outside
+#'   quoted (\code{""}) regions, and separates the rows above \code{autostart}
+#'   into a consistent number of fields, too.
 #' @param preprocess a shell command that preprocesses the file; see below for
 #'   more details
 #' @param verbose Provide description of processing steps
@@ -110,7 +118,7 @@ read_gwas_file <- function(input, missing, preprocess, sep, nrows, header, col.n
   }
 
   input.names <- read_colnames(input)
-  name.types <- map(input.names, type.convert)
+  name.types <- map(input.names, utils::type.convert)
 
   if (header & is.null(col.names) & any(map_lgl(name.types, is.numeric))) {
     warning("Detected numbers in first row, setting header=FALSE.", call. = FALSE)

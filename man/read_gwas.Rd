@@ -13,13 +13,19 @@ read_gwas(input, sep = "auto", missing = c("NA", "N/A", "null", "."),
 paths are specified all files will be read in and combined into a single
 \code{data.frame}.}
 
-\item{sep}{ The separator between columns. Defaults to the first character in the set [\code{,\t |;:}] that exists on line \code{autostart} outside quoted (\code{""}) regions, and separates the rows above \code{autostart} into a consistent number of fields, too. }
+\item{sep}{The separator between columns. Defaults to the first character in
+the set [\code{,\\t |;:}] that exists on line \code{autostart} outside
+quoted (\code{""}) regions, and separates the rows above \code{autostart}
+into a consistent number of fields, too.}
 
 \item{missing}{Vector of characters that represent missing value codes. By
 default the following strings are interpreted as \code{NA}: \code{""},
 \code{"."}, \code{"NA"}, \code{"N/A"}, and \code{"null"}.}
 
-\item{chromosome_style}{Convert chromosomes to ordered factors with labels based on the specified style (default is \code{"ucsc"}; see below for a comparison of the different styles). Set to \code{NULL} to leave chromosomes unchanged.}
+\item{chromosome_style}{Convert chromosomes to ordered factors with labels
+based on the specified style (default is \code{"ucsc"}; see below for a
+comparison of the different styles). Set to \code{NULL} to leave
+chromosomes unchanged.}
 
 \item{preprocess}{a shell command that preprocesses the file; see below for
 more details}

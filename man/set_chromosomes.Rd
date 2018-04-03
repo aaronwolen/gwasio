@@ -9,7 +9,10 @@ set_chromosomes(x, chromosome_style)
 \arguments{
 \item{x}{vector of chromosome values}
 
-\item{chromosome_style}{Convert chromosomes to ordered factors with labels based on the specified style (default is \code{"ucsc"}; see below for a comparison of the different styles). Set to \code{NULL} to leave chromosomes unchanged.}
+\item{chromosome_style}{Convert chromosomes to ordered factors with labels
+based on the specified style (default is \code{"ucsc"}; see below for a
+comparison of the different styles). Set to \code{NULL} to leave
+chromosomes unchanged.}
 }
 \description{
 Convert chromosomes column to a propery ordered factor
