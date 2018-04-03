@@ -56,6 +56,7 @@
 #' @importFrom purrr map map_int map_chr map_lgl map2_chr walk2 set_names discard keep
 #' @importFrom rlang is_named
 #' @importFrom stringi stri_count_regex
+#' @importFrom utils type.convert
 #' @export
 
 read_gwas <-
