@@ -1,5 +1,6 @@
 # `gwasio`
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![Travis-CI Build Status](https://travis-ci.org/aaronwolen/gwasio.svg?branch=master)](https://travis-ci.org/aaronwolen/gwasio)
 
 Standardize heterogeneous GWAS results.
