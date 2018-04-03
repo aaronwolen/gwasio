@@ -1,7 +1,7 @@
 Package: gwasio
 Type: Package
 Title: GWAS Input/Output
-Version: 0.1.1.9000
+Version: 0.1.2
 Author: Aaron Wolen <aaron@wolen.com>
 Maintainer: Aaron Wolen <aaron@wolen.com>
 Description: Load and standardize heterogeneous GWAS results files.
