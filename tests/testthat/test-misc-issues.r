@@ -28,7 +28,6 @@ test_that("handles column names from pretty printed files", {
 
 test_that("preprocessor can handle ascii null characters", {
   file <- "tables/plink-dosage-with-ascii-null.txt"
-  expect_error(read_gwas(file), regexp = "embedded nul in string")
-  gwas <- read_gwas(file, preprocess = "tr -d '\\000' < %s")
+  gwas <- read_gwas(file)
   expect_equal(dim(gwas), c(6, 8))
 })
